@@ -67,11 +67,6 @@ def run():
     inicializar2()
     global RELOJ
     while RELOJ < 50:
-    
-
-
-
-
         if sim1.estado_servidor == 'D':
             print("reloj: "+ str(RELOJ))
             tiempos1()
