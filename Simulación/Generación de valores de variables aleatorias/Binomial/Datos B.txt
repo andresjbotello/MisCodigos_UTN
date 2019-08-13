@@ -1,0 +1,8 @@
+Ingrese la cantidad de eventos "n": 15
+Ingrese la probabilidad de éxito "p": 0.3
+La media es:  4.55
+La varianza es:  3.44
+La desviacion estandar es:  1.85
+La media es:  4.45
+La varianza es:  3.24
+La desviacion estandar es:  1.80
