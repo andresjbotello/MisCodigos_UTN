@@ -1,0 +1,7 @@
+Ingrese el valor de p: 5
+La media es:  5.16
+La varianza es:  4.96
+La desviacion estandar es:  2.23
+La media es:  5.13
+La varianza es:  5.11
+La desviacion estandar es:  2.26
