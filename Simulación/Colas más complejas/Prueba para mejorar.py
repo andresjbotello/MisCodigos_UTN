@@ -101,3 +101,7 @@ class Simulacion():
 if __name__=='__main__':
     server1 = Simulacion(servidor=1,tpoEntreArribos=10.0,tpoDeServicio=7.0)
     server2 = Simulacion(servidor=1,tpoEntreArribos=10.0,tpoDeServicio=5.0)
+
+
+
+#hola
