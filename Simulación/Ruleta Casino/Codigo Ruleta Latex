@@ -1,0 +1,135 @@
+% Adapted from: https://www.overleaf.com/latex/templates/plantilla-para-revista-iberoamericana-de-automatica-e-informatica-industrial-riai/hbxybyszgjzy#.W1k2JNJLiCo
+
+% This template was based on the Elsevier article template (link above) and was adapted by Ezequiel Leonardo Castaño
+
+\input{format.tex}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Trabajo Práctico Ruleta}
+
+\author[First]{Bengoechea, Guadalupe María}
+\ead{guadabengoechea@gmail.com}
+\author[First]{Corsetti, Ornela Milagros}
+\ead{orcorsetti@frro.utn.edu.ar}
+\author[First]{Garcìa, Narela Rosana}
+\ead{nargarcia@frro.utn.edu.ar}
+\author[First]{Golzman, Gabriel}
+\ead{ggolzman@frro.utn.edu.ar}
+
+\address{Universidad Tecnológica Nacional Regional Rosario }
+
+\begin{abstract}
+Este trabajo consiste en realizar cinco experiencias distintas, y su posterior análisis, utilizando como caso de estudio una ruleta que comprenda los números enteros de 0 a 36. Finalmente se debe demostrar que esta posee propiedades equiprobables.
+
+\end{abstract}
+
+
+\begin{keyword}
+
+Probabilidad, frecuencia relativa, varianza, esperanza, histograma, ruleta, muestra.
+
+\end{keyword}
+
+
+\end{frontmatter}
+
+\section{Marco Teórico} \label{s:1}
+
+\subsection{Introducción.}
+La estadística como disciplina se relaciona con las técnicas
+y los métodos que se han desarrollado para planear experiencias, recopilar, organizar, resumir,
+analizar, interpretar y comunicar la información proveniente de datos tanto cuantitativos como
+cualitativos.\\\\
+Si dichos datos son un subconjunto de una población mas grande, se dice que son "datos muestrales". En cambio, si este conjunto de datos abarca a toda la población, son "datos poblacionales".\\\\ Para que estos datos resulten comprensibles es necesario organizarlos, representarlos gráficamente y definir medidas descriptivas que sinteticen la información.
+
+\subsection{Frecuencia Absoluta.}
+La frecuencia absoluta es el número de veces que aparece un determinado valor en un estudio estadístico. La suma de las frecuencias absolutas es igual al número total de datos, que se representa por N.
+$$ \sum_{i=1}^{n}F_i = N $$
+
+\subsection{Frecuencia Relativa.} \label{s:1.3}
+La frecuencia relativa es el cociente entre la frecuencia absoluta de un determinado valor y el número total de datos. La suma de las frecuencias relativas es igual a 1.
+$$ f_i=\frac{F_i}{N}$$ 
+$$ \sum_{i=1}^{n}f_i = 1$$
+
+\subsection{Esperanza.} \label{s:1.4}
+En matemáticas y estadística, la esperanza, también llamada promedio o media, de un conjunto finito de números es el valor característico de una serie de datos cuantitativos, objeto de estudio que parte del principio de la esperanza matemática o valor esperado\\\\
+Si $x_1,x_2,x_3,... ,x_N$ es una población finita de tamaño $N$ entonces la esperanza de la población es:$$\mu = \frac{x_1+x_2+x_3+... +x_N}{N}=\frac{1}{N}\sum_{i=1}^{N}x_{i}$$ 
+
+\subsection{Varianza.} \label{s:1.5}
+La varianza es una medida de dispersión que representa la variabilidad de una serie de datos respecto a su media.\\\\
+Si $x_1,x_2,x_3,... ,x_N$ es una población finita de tamaño $N$ se define la varianza poblacional como: $$\sigma^{2} = \frac{1}{N}\sum_{i=1}^{N}(x_i-\mu)^{2}$$
+
+\subsection{Histograma.}
+Un histograma es una representación gráfica de una variable en forma de barras, donde la superficie de cada barra es proporcional a la frecuencia, ya sea absoluta o relativa, de los valores representados.\\\\
+Su función es exponer gráficamente números, variables y cifras de modo que los resultados se visualicen más clara y ordenadamente.\\\\
+Normalmente, las frecuencias son representadas en el eje vertical mientras que en el horizontal se representan los valores de cada una de las variables.
+
+\section{Metodología}
+
+Consideramos una ruleta con 37 variables discretas (los números enteros de 0 a 36) siendo estos los valores que puede tomar la población que nos dedicaremos a analizar. Para lograr este análisis, generamos aleatoriamente 2700 valores que conformaran nuestra población.\\\\
+Dentro de cada uno de los cinco experimentos, utilizamos dichos valores para analizar como evolucionan los mismos a medida que van aumentando las iteraciones.\\\\
+Para facilitar el análisis de estos datos, utilizamos el lenguaje de programación \textit{python} el cual tiene una amplia variedad de librerías. De todas ellas, utilizaremos únicamente \textit{random} (utilizada para generar los valores aleatorios) y  \textit{matplotlib} (para graficar la evolución de los datos).\\\\
+La forma en la que realizamos los experimentos la desarrollaremos en la sección casos de estudio.
+
+\subsection{Hipótesis} \label{s:2.1}
+Nuestra hipótesis consiste en el supuesto de que a medida que aumentan las iteraciones al evaluar una mayor cantidad de datos, el resultado final que toman los experimentos de frecuencia relativa, esperanza, esperanza de la esperanza y varianza de la esperanza tienden al valor que le correspondería según las fórmulas definidas en el marco teórico evaluado.\\\\
+En el caso de las esperanzas, estas deben converger en el valor 18. Ya que, al ser equiprobable nuestra ruleta, los valores convergen al valor promedio entre sus extremos.\\\\
+Para la varianza podemos intuir que a medida que aumentan las iteraciones y la esperanza converge, los valores que tome la varianza de la esperanza van a tender a cero, ya que la esperanza no varía significativamente.\\\\
+Por otro lado, el experimento que corresponde a la representación de los valores en un histograma debería tener una forma simil rectangular ya que las frecuencias absolutas de todas las variables tendrían que ser similares, debido a que son equiprobables.
+
+\section{Casos de estudio}
+
+\subsection{Población.} \label{s:3.1}
+Para generar la población de una manera aleatoria utilizamos una lista, la cual rellenamos con valores enteros en un rango de 0 a 36 utilizando la función \textit{randint}.
+
+\subsection{Experimento 1 - Frecuencia Relativa}
+Primero elegimos un valor al azar de la población, siete en este caso, para posteriormente tomar este valor y analizar como evoluciona su frecuencia relativa a medida que generamos nuevos valores de la ruleta.\\\\
+Para analizar dicha frecuencia, utilizamos la fórmula descripta en la sección \ref{s:1.3}.\\\\
+Para obtener la frecuencia absoluta del elemento elegido dentro de la población, utilizamos la función \textit{count} la cual nos provee la cantidad de veces que dicho elemento se manifiesta en la población.\\\\
+Para conseguir el valor de $N$ utilizamos la función \textit{len} que nos devuelve el total de los elementos generados en esta iteración.\\\\ 
+Luego de las 2700 iteraciones utilizamos la función \textit{plot} de la librería \textit{Matplotlib}, la cual gráfica el valor analizado para cada iteración.
+\begin{figure}[h!]
+\centering
+   \includegraphics[width=\linewidth, height= 7 cm]{Frec_Relativa.png}\\
+   \caption{Frecuencia Relativa.}
+ \end{figure}
+ 
+ \subsection{Experimento 2 - Esperanza.}
+ Para realizar este experimento tomamos de a uno los elementos de la lista definida en la sección \ref{s:3.1}, y evaluamos la esperanza para cada nuevo valor que tomamos y la depositamos en una nueva lista. Para esto, utilizamos la fórmula definida en la sección \ref{s:1.4}.\\\\
+ La obtención de los datos requeridos la hacemos mediante la función \textit{sum} la que calcula automáticamente la sumatoria de los valores en la lista.
+ Al igual que en el experimento anterior, repetimos dicho procedimiento 2700 veces para finalmente graficar el resultado de la nueva lista obtenida.
+ 
+\includegraphics[width = \linewidth, height = 7cm]{Media.png}
+
+
+\subsection{Experimento 3 - Esperanza de la esperanza}
+Al igual que el experimento anterior calculamos los valores de la esperanza pero utilizando como dato de entrada la lista de esperanzas calculada anteriormente.
+Para una mejor comparación, incluimos en la gráfica los valores de la esperanza del experimento anterior (representados en color naranja) junto con los de este (representados en color azul).
+
+\includegraphics[width = \linewidth, height = 7cm]{E(E).png}
+
+
+\subsection{Experimento 4 - Varianza}
+El objetivo de este experimento es calcular los valores de la varianza utilizando como datos de entrada los valores de la esperanza calculados en el experimento 2.\\\\
+Para realizarlo, empleamos la fórmula desarrollada en la sección \ref{s:1.5}. Para la cual, inicialmente, calculamos la esperanza total utilizando todos los datos de la lista. Y posteriormente, los almacenamos en una tercer lista.\\\\
+Finalmente, al igual que en los demás experimentos, utilizamos la función del lenguaje para graficar los valores que toma la varianza mientras recorremos la lista.
+
+\includegraphics[width = \linewidth, height = 7cm]{V(E).png}
+
+\subsection{Experimento 5 - Histograma.}
+Para el último experimento tomamos nuevamente la lista de la ruleta inicial y colocamos en la función \textit{hist}, perteneciente a la librería \textit{matplotlib}, junto con la descripción de la distribución de los intervalos y otros parámetros estéticos, como el color, transparencia, etcétera.
+
+\includegraphics[width = \linewidth, height = 7cm]{Histograma.png}
+
+\section{Conclusiones}
+Como podemos ver en las gráficas incluidas en los casos de estudio, los valores de los primeros cuatro experimentos cumplen satisfactoriamente con la hipótesis planteada en la sección \ref{s:2.1}. Para comprobarlos utilizamos, en cada una de estas gráficas, una recta de referencia sobre los valores a los cuales deben converger.\\\\
+También podemos observar que se satisface la condición definida para el experimento numero 5, ya que este posee valores de frecuencias absolutas similares, por lo tanto presenta una forma aparentemente rectangular.\\\\
+Si considerásemos una población aún mas grande podríamos notar estos detalles con mayor claridad.\\\\
+A partir de los análisis realizados en los experimentos podemos afirmar que nuestra población se compone de valores equiprobables.\\\\
+
+\input{appendix.tex}
+
+\end{document}
