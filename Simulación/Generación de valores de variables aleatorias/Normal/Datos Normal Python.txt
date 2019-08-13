@@ -1,0 +1,2 @@
+Ingrese el valor de la media: 0
+Ingrese el valor de la desviacion: 2
