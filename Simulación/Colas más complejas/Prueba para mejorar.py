@@ -76,11 +76,11 @@ class Simulacion():
             minPartida = min(ListaPartidas)
             if minArribo < minPartida: #server1.nro_clientes_cola <= server2.nro_clientes_cola
                 print("reloj: "+ str(RELOJ))
-                tiempos(self,minArribo,'A')                
-                arribo(self,minArribo)
+                self.tiempos(minArribo,'A')                
+                self.arribo(minArribo)
             else:
-                tiempos(self,minPartida,'P')
-                partida(self,minPartida)
+                self.tiempos(minPartida,'P')
+                self.partida(minPartida)
             
 
     def tiempos(self,evento,letra):
@@ -116,7 +116,9 @@ class Simulacion():
             sim1.cliColaEnT.append(sim1.nro_clientes_cola)
             sim1.relojEnT.append(RELOJ)
             sim1.tsAcuEnT.append(sim1.ts_acumulado)
-
+    
+    def partida(self,evento):
+        pass
         
         
 
