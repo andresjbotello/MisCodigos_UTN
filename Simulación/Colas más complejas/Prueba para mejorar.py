@@ -37,6 +37,7 @@ class Simulacion():
         
         
         self.iniciado = False
+    """
     def run(self,server1,server2):
         global ListaArribos
         global ListaPartidas
@@ -71,7 +72,7 @@ class Simulacion():
                     arribo2()
                 else:
                     partida2()
-
+            
             minArribo = min(ListaArribos)
             minPartida = min(ListaPartidas)
             if minArribo < minPartida: #server1.nro_clientes_cola <= server2.nro_clientes_cola
@@ -82,7 +83,7 @@ class Simulacion():
                 self.tiempos(minPartida,'P')
                 self.partida(minPartida)
             
-
+        """
     def tiempos(self,evento,letra):
         global RELOJ
         
@@ -96,11 +97,13 @@ class Simulacion():
     def arribo(self,evento):
         global RELOJ
         global ListaArribos
-        indice = evento[1] - 1
+        indice = evento[1] - 1 #posicion en lista arribos
         ListaArribos[indice] = [RELOJ + np.random.exponential(1/self.tm_entre_arribos),evento[1]]
+        print(self.nroServidor)
+        
 
         if self.estado_servidor == "D":
-            sim1.estado_servidor = "O"
+            server1.estado_servidor = "O"
             ListaPartidas[indice] = [RELOJ + np.random.exponential(1/self.tm_servicio),evento[1]]
             self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
             self.completaron_demora += 1    
@@ -120,9 +123,54 @@ class Simulacion():
     def partida(self,evento):
         pass
         
+def run(self,server1,server2):
+        global ListaArribos
+        global ListaPartidas
+        global RELOJ
+        print("Inicializando simulacion")
+        server1.inicializar()
+        server2.inicializar()
+
+        #Tiempo del primer arribo
+        ListaArribos.append([np.random.exponential(1/self.tm_entre_arribos),1])
+        ListaArribos.append([np.random.exponential(1/self.tm_entre_arribos),2])
+    
+        #Numero grande para asegurar que el primer evento sea un arribo
+        ListaPartidas.append([999999,1])
+        ListaPartidas.append([999999,2])
+        
+        while RELOJ < 50:
+            """
+            if server1.estado_servidor == 'D':
+                print("reloj: "+ str(RELOJ))
+                tiempos1()
+                
+                if server1.proximo_evento == "A":
+                    arribo1()
+                else:
+                    partida1()
+            elif server2.estado_servidor == 'D':
+                print("reloj: "+ str(RELOJ))
+                tiempos2()
+                
+                if server2.proximo_evento == "A":
+                    arribo2()
+                else:
+                    partida2()
+            """
+            minArribo = min(ListaArribos)
+            minPartida = min(ListaPartidas)
+            if minArribo < minPartida: #server1.nro_clientes_cola <= server2.nro_clientes_cola
+                print("reloj: "+ str(RELOJ))
+                self.tiempos(minArribo,'A')                
+                self.arribo(minArribo)
+            else:
+                self.tiempos(minPartida,'P')
+                self.partida(minPartida)
         
 
 
 if __name__=='__main__':
     server1 = Simulacion(servidor=1,tpoEntreArribos=10.0,tpoDeServicio=7.0)
     server2 = Simulacion(servidor=2,tpoEntreArribos=10.0,tpoDeServicio=5.0)
+    run(server1,server2)
