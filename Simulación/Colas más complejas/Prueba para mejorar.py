@@ -37,7 +37,6 @@ class Simulacion():
         
         
         self.iniciado = False
-
     def run(self,server1,server2):
         global ListaArribos
         global ListaPartidas
@@ -55,6 +54,7 @@ class Simulacion():
         ListaPartidas.append([999999,2])
         
         while RELOJ < 50:
+            
             if server1.estado_servidor == 'D':
                 print("reloj: "+ str(RELOJ))
                 tiempos1()
