@@ -23,7 +23,7 @@ def inicializar():
     sim.nro_clientes_cola, sim.completaron_demora, sim.paso = 0,0,0
     
     #Tiempo del primer arribo
-    sim.lista_eventos.append(np.random.exponential(1/sim.tm_entre_arribos))
+    sim.lista_eventos.append(np.random.exponential(sim.tm_entre_arribos))
 
     #Numero grande para asegurar que el primer evento sea un arribo
     sim.lista_eventos.append(99999999)
@@ -32,7 +32,7 @@ def inicializar():
 def run():
     print("Inicializando simulacion")
     inicializar()
-    while sim.reloj < 50 or sim.nro_clientes_cola != 0 or sim.estado_servidor != "D":
+    while sim.reloj < 5000:
         print("reloj: "+ str(sim.reloj))
         tiempos()
         
@@ -53,10 +53,10 @@ def tiempos():
         sim.proximo_evento = "P"
 
 def arribo():
-    sim.lista_eventos[0] = sim.reloj + np.random.exponential(1/sim.tm_entre_arribos)
+    sim.lista_eventos[0] = sim.reloj + np.random.exponential(sim.tm_entre_arribos)
     if sim.estado_servidor == "D":
         sim.estado_servidor = "O"
-        sim.lista_eventos[1] = sim.reloj + np.random.exponential(1/sim.tm_servicio)
+        sim.lista_eventos[1] = sim.reloj + np.random.exponential(sim.tm_servicio)
         sim.ts_acumulado += (sim.lista_eventos[1] - sim.reloj)
         sim.completaron_demora += 1    
         #grafica  
@@ -75,7 +75,7 @@ def arribo():
 
 def partida():
     if sim.nro_clientes_cola > 0:
-        sim.lista_eventos[1] = sim.reloj + np.random.exponential(1/sim.tm_servicio)
+        sim.lista_eventos[1] = sim.reloj + np.random.exponential(sim.tm_servicio)
         sim.demora_acumulada += sim.reloj - sim.cola[0]
         sim.completaron_demora += 1
         sim.ts_acumulado += sim.lista_eventos[1] - sim.reloj

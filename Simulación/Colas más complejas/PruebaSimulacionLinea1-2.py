@@ -4,7 +4,9 @@ from matplotlib import pyplot as plt
 RELOJ = 0.0
 ListaArribos = []
 ListaPartidas = []
-
+ColaUnica = 0
+ArribosLinea2 = []
+PartidasLinea2 = []
 
 
 class Simulacion():
@@ -48,11 +50,11 @@ class Simulacion():
         global RELOJ
         global ListaArribos
         indice = evento[1] - 1 #posicion en lista arribos
-        ListaArribos[indice] = [RELOJ + np.random.exponential(1/self.tm_entre_arribos),evento[1]]                
+        ListaArribos[indice] = [RELOJ + np.random.exponential(self.tm_entre_arribos),evento[1]]                
 
         if self.estado_servidor == "D":
             self.estado_servidor = "O"
-            ListaPartidas[indice] = [RELOJ + np.random.exponential(1/self.tm_servicio),evento[1]]
+            ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio),evento[1]]
             self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
             self.completaron_demora += 1    
             #grafica  
@@ -74,10 +76,11 @@ class Simulacion():
     def partida(self,evento):
         global RELOJ
         global ListaPartidas
+        global ColaUnica
         indice = evento[1] - 1 #posicion en lista partida
 
         if self.nro_clientes_cola > 0:
-            ListaPartidas[indice] = [RELOJ + np.random.exponential(1/self.tm_servicio),evento[1]]
+            ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio),evento[1]]
             self.demora_acumulada += RELOJ - self.cola[0]
             self.completaron_demora += 1
             self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
@@ -100,36 +103,33 @@ class Simulacion():
             sim1.tsAcuEnT.append(sim1.ts_acumulado)
             """
         
-def run(server1,server2):
+        
+        
+def run(server1,server2,server3,server4,server5):
         global ListaArribos
         global ListaPartidas
         global RELOJ
         print("Inicializando simulacion")        
 
         #Tiempo del primer arribo
-        ListaArribos.append([np.random.exponential(1/server1.tm_entre_arribos),1])
-        ListaArribos.append([np.random.exponential(1/server2.tm_entre_arribos),2])
+        ListaArribos.append([np.random.exponential(server1.tm_entre_arribos),1])
+        ListaArribos.append([np.random.exponential(server2.tm_entre_arribos),2])
+        ListaArribos.append([99999,3])
+        ListaArribos.append([99999,4])
+        ListaArribos.append([99999,5])
     
         #Numero grande para asegurar que el primer evento sea un arribo
         ListaPartidas.append([999999,1])
         ListaPartidas.append([999999,2])
+        ListaPartidas.append([999999,3])
+        ListaPartidas.append([999999,4])
+        ListaPartidas.append([999999,5])
         
-        while RELOJ < 50:
-            """
-            if server1.estado_servidor == 'D':
-                print("reloj: "+ str(RELOJ))
-                server1.tiempos(ListaArribos[0],'A')
-                server1.arribo(ListaArribos[0])
-
-            elif server2.estado_servidor == 'D':
-                print("reloj: "+ str(RELOJ))
-                server2.tiempos(ListaArribos[1],'A')
-                server2.arribo(ListaArribos[1])
-            """
+        while RELOJ < 5000:
             minArribo = min(ListaArribos)
             minPartida = min(ListaPartidas)
 
-            if minArribo < minPartida: #server1.nro_clientes_cola <= server2.nro_clientes_cola
+            if minArribo < minPartida: 
                 print("reloj: "+ str(RELOJ))
                 nroServer = minArribo[1]
                 if nroServer == 1:
@@ -144,9 +144,53 @@ def run(server1,server2):
                 if nroServer == 1:
                     server1.tiempos(minPartida,'P') 
                     server1.partida(minPartida)
+                    ColaUnica += 1
                 else:              
                     server2.tiempos(minPartida,'P') 
                     server2.partida(minPartida)
+                    ColaUnica += 1
+
+
+                if ListaArribos[2][0] == 99999:
+                    ListaArribos[2] = [np.random.exponential(server3.tm_entre_arribos)+RELOJ,3]
+                    ListaArribos[3] = [np.random.exponential(server4.tm_entre_arribos)+RELOJ,4]
+                    ListaArribos[4] = [np.random.exponential(server5.tm_entre_arribos)+RELOJ,5]
+
+                else:
+                    ArribosLinea2 = ListaArribos[2:]
+                    PartidasLinea2 = ListaPartidas[2:]
+
+                    minArribo = min(ArribosLinea2)
+                    minPartida = min(PartidasLinea2)
+
+                    if minArribo < minPartida: #server1.nro_clientes_cola <= server2.nro_clientes_cola
+                        print("reloj: "+ str(RELOJ))
+                        nroServer = minArribo[1]
+                        if nroServer == 3:
+                            server3.tiempos(minArribo,'A') 
+                            server3.arribo(minArribo)
+                            ColaUnica -= 1
+                        elif nroServer == 4:              
+                            server4.tiempos(minArribo,'A') 
+                            server4.arribo(minArribo)
+                            ColaUnica -= 1
+                        else:
+                            server5.tiempos(minArribo,'A') 
+                            server5.arribo(minArribo)
+                            ColaUnica -= 1
+                    else:
+                        print("reloj: "+ str(RELOJ))
+                        nroServer = minPartida[1]
+                        if nroServer == 3:
+                            server3.tiempos(minPartida,'P') 
+                            server3.partida(minPartida)
+                        elif nroServer == 4:              
+                            server4.tiempos(minPartida,'P') 
+                            server4.partida(minPartida)
+                        else:
+                            server5.tiempos(minPartida,'P') 
+                            server5.partida(minPartida)
+
             
         return server1, server2
 
@@ -191,5 +235,23 @@ def reportes(server1,server2):
 if __name__=='__main__':
     server1 = Simulacion(servidor=1,tpoEntreArribos=10.0,tpoDeServicio=7.0)
     server2 = Simulacion(servidor=2,tpoEntreArribos=10.0,tpoDeServicio=5.0)
+    server3 = Simulacion(servidor=3,tpoEntreArribos=10.0,tpoDeServicio=6.0)
+    server4 = Simulacion(servidor=4,tpoEntreArribos=10.0,tpoDeServicio=5.0)
+    server5 = Simulacion(servidor=5,tpoEntreArribos=10.0,tpoDeServicio=5.0)
+
     run(server1,server2)
     reportes(server1,server2)
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
