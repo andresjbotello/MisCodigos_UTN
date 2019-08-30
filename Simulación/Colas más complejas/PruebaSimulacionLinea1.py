@@ -1,4 +1,5 @@
-import numpy as np 
+import numpy as np
+import math as m
 from matplotlib import pyplot as plt
 
 RELOJ = 0.0
@@ -48,11 +49,11 @@ class Simulacion():
         global RELOJ
         global ListaArribos
         indice = evento[1] - 1 #posicion en lista arribos
-        ListaArribos[indice] = [RELOJ + np.random.exponential(self.tm_entre_arribos),evento[1]]                
+        ListaArribos[indice] = [RELOJ + (-self.tm_entre_arribos)*m.log(np.random.uniform(0, 1)), evento[1]]
 
         if self.estado_servidor == "D":
             self.estado_servidor = "O"
-            ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio),evento[1]]
+            ListaPartidas[indice] = [RELOJ + (-self.tm_servicio)*m.log(np.random.uniform(0,1)),evento[1]]
             self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
             self.completaron_demora += 1    
             #grafica  
@@ -77,7 +78,7 @@ class Simulacion():
         indice = evento[1] - 1 #posicion en lista partida
 
         if self.nro_clientes_cola > 0:
-            ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio),evento[1]]
+            ListaPartidas[indice] = [RELOJ + (-self.tm_servicio)*m.log(np.random.uniform(0, 1)), evento[1]]
             self.demora_acumulada += RELOJ - self.cola[0]
             self.completaron_demora += 1
             self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
@@ -107,12 +108,12 @@ def run(server1,server2):
         print("Inicializando simulacion")        
 
         #Tiempo del primer arribo
-        ListaArribos.append([np.random.exponential(server1.tm_entre_arribos),1])
-        ListaArribos.append([np.random.exponential(server2.tm_entre_arribos),2])
+        ListaArribos.append([(-server1.tm_entre_arribos)*m.log(np.random.uniform(0, 1)), 1])
+        ListaArribos.append([(-server2.tm_entre_arribos)*m.log(np.random.uniform(0, 1)), 2])
     
         #Numero grande para asegurar que el primer evento sea un arribo
-        ListaPartidas.append([999999,1])
-        ListaPartidas.append([999999,2])
+        ListaPartidas.append([999999, 1])
+        ListaPartidas.append([999999, 2])
         
         while RELOJ < 5000:
             """
@@ -188,8 +189,8 @@ def reportes(server1,server2):
         
 
 
-if __name__=='__main__':
-    server1 = Simulacion(servidor=1,tpoEntreArribos=10.0,tpoDeServicio=7.0)
-    server2 = Simulacion(servidor=2,tpoEntreArribos=10.0,tpoDeServicio=5.0)
-    run(server1,server2)
-    reportes(server1,server2)
+if __name__ == '__main__':
+    server1 = Simulacion(servidor=1, tpoEntreArribos=10.0, tpoDeServicio=7.0)
+    server2 = Simulacion(servidor=2, tpoEntreArribos=10.0, tpoDeServicio=5.0)
+    run(server1, server2)
+    reportes(server1, server2)
