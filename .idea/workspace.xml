@@ -4,7 +4,6 @@
     <list default="true" id="48dd86ca-eff8-40ca-9f6c-6ea8ff28aaa0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Simulación/Colas más complejas/PruebaSimulacionLinea1-2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulación/Colas más complejas/PruebaSimulacionLinea1-2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Simulación/Colas más complejas/PruebaSimulacionLinea1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Simulación/Colas más complejas/PruebaSimulacionLinea1.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,7 +19,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
-    <property name="settings.editor.selected.configurable" value="reference.idesettings.emmet" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -103,7 +102,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -114,7 +115,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Simulación/Colas más complejas/PruebaSimulacionLinea1-2.py</url>
-          <line>253</line>
+          <line>322</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
