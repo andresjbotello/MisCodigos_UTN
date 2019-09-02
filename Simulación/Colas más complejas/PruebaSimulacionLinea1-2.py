@@ -76,16 +76,22 @@ class Simulacion():
         else:
             if self.nroServidor == 3:
                 self.estado_servidor = "O"
+                if len(ColaUnica) > 0:
+                    self.demora_acumulada += (RELOJ - ColaUnica[0])
                 ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
                 self.completaron_demora += 1
             elif self.nroServidor == 4:
                 self.estado_servidor = "O"
+                if len(ColaUnica) > 0:
+                    self.demora_acumulada += (RELOJ - ColaUnica[0])
                 ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
                 self.completaron_demora += 1
             else:
                 self.estado_servidor = "O"
+                if len(ColaUnica) > 0:
+                    self.demora_acumulada += (RELOJ - ColaUnica[0])
                 ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
                 self.completaron_demora += 1
@@ -122,11 +128,32 @@ class Simulacion():
                 """
         else:
             if self.nroServidor == 3:
-                self.estado_servidor = 'D' #acá falta algo
+                if len(ColaUnica) > 0:
+                    self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
+                    ColaUnica.pop(0)
+                    self.tiempos(evento,'A')
+                    self.arribo(evento)
+                else:
+                    self.estado_servidor = 'D'
+                    ListaPartidas[indice] = [999999, evento[1]]
             elif self.nroServidor == 4:
-                self.estado_servidor = 'D'
+                if len(ColaUnica) > 0:
+                    self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
+                    ColaUnica.pop(0)
+                    self.tiempos(evento, 'A')
+                    self.arribo(evento)
+                else:
+                    self.estado_servidor = 'D'
+                    ListaPartidas[indice] = [999999, evento[1]]
             else:
-                self.estado_servidor = 'D'
+                if len(ColaUnica) > 0:
+                    self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
+                    ColaUnica.pop(0)
+                    self.tiempos(evento, 'A')
+                    self.arribo(evento)
+                else:
+                    self.estado_servidor = 'D'
+                    ListaPartidas[indice] = [999999, evento[1]]
 
 
 def run(server1, server2, server3, server4, server5):
@@ -173,14 +200,20 @@ def run(server1, server2, server3, server4, server5):
                 if server3.estado_servidor == 'O' and server4.estado_servidor == 'O' and server5.estado_servidor == 'O':
                     ColaUnica.append(minPartida[0])  # solo se agrega a la cola si los 3 servidores de segunda linea estan ocupados
                 elif server3.estado_servidor == 'D':
+                    minPartida[1] = minPartida[1] + 2
+                    server3.tiempos(minPartida, 'A')
                     server3.arribo(minPartida)
                     if len(ColaUnica) > 0:
                         ColaUnica.pop(0)
                 elif server4.estado_servidor == 'D':
+                    minPartida[1] = minPartida[1] + 3
+                    server4.tiempos(minPartida, 'A')
                     server4.arribo(minPartida)
                     if len(ColaUnica) > 0:
                         ColaUnica.pop(0)
                 else:
+                    minPartida[1] = minPartida[1] + 4
+                    server5.tiempos(minPartida, 'A')
                     server5.arribo(minPartida)
                     if len(ColaUnica) > 0:
                         ColaUnica.pop(0)
@@ -190,14 +223,20 @@ def run(server1, server2, server3, server4, server5):
                 if server3.estado_servidor == 'O' and server4.estado_servidor == 'O' and server5.estado_servidor == 'O':
                     ColaUnica.append(minPartida[0])
                 elif server3.estado_servidor == 'D':
+                    minPartida[1] = minPartida[1] + 1
+                    server3.tiempos(minPartida, 'A')
                     server3.arribo(minPartida)
                     if len(ColaUnica) > 0:
                         ColaUnica.pop(0)
                 elif server4.estado_servidor == 'D':
+                    minPartida[1] = minPartida[1] + 2
+                    server4.tiempos(minPartida, 'A')
                     server4.arribo(minPartida)
                     if len(ColaUnica) > 0:
                         ColaUnica.pop(0)
                 else:
+                    minPartida[1] = minPartida[1] + 3
+                    server5.tiempos(minPartida, 'A')
                     server5.arribo(minPartida)
                     if len(ColaUnica) > 0:
                         ColaUnica.pop(0)
