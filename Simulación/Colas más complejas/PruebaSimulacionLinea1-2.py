@@ -249,51 +249,16 @@ def run(server1, server2, server3, server4, server5):
             elif nroServer == 5:
                 server5.tiempos(minPartida, 'P')
                 server5.partida(minPartida)
-            """    
-            else:
-                ArribosLinea2 = ListaArribos[2:]
-                PartidasLinea2 = ListaPartidas[2:]
-
-                minArribo = min(ArribosLinea2)
-                minPartida = min(PartidasLinea2)
-
-                if minArribo < minPartida:  # server1.nro_clientes_cola <= server2.nro_clientes_cola
-                    print("reloj: " + str(RELOJ))
-                    nroServer = minArribo[1]
-                    if nroServer == 3:
-                        server3.tiempos(minArribo, 'A')
-                        server3.arribo(minArribo)
-                        ColaUnica.pop(0)
-                    elif nroServer == 4:
-                        server4.tiempos(minArribo, 'A')
-                        server4.arribo(minArribo)
-                        ColaUnica.pop(0)
-                    else:
-                        server5.tiempos(minArribo, 'A')
-                        server5.arribo(minArribo)
-                        ColaUnica.pop(0)
-                else:
-                    print("reloj: " + str(RELOJ))
-                    nroServer = minPartida[1]
-                    if nroServer == 3:
-                        server3.tiempos(minPartida, 'P')
-                        server3.partida(minPartida)
-                    elif nroServer == 4:
-                        server4.tiempos(minPartida, 'P')
-                        server4.partida(minPartida)
-                    else:
-                        server5.tiempos(minPartida, 'P')
-                        server5.partida(minPartida)
-            """
     return server1, server2, server3, server4, server5
 
-"""
+
 def nro_prom_clientes_cola(server1, server2, server3, server4, server5):
     global RELOJ
     if RELOJ != 0:
         nro_clientes_prom_cola1 = server1.area_q_t / RELOJ
         nro_clientes_prom_cola2 = server2.area_q_t / RELOJ
-        return nro_clientes_prom_cola1, nro_clientes_prom_cola2
+        nro_clientes_fila_unica = (server3.area_q_t / RELOJ) + (server4.area_q_t / RELOJ) + (server5.area_q_t / RELOJ)
+        return nro_clientes_prom_cola1, nro_clientes_prom_cola2, nro_clientes_fila_unica
     else:
         nro_clientes_prom_cola = 0  # no tiene sentido, ver
         return nro_clientes_prom_cola
@@ -303,7 +268,10 @@ def utilizacion_prom_servidor(server1, server2, server3, server4, server5):
     if RELOJ != 0:
         utilizacion_prom_servidor1 = server1.ts_acumulado / RELOJ
         utilizacion_prom_servidor2 = server2.ts_acumulado / RELOJ
-        return utilizacion_prom_servidor1, utilizacion_prom_servidor2
+        utilizacion_prom_servidor3 = server3.ts_acumulado / RELOJ
+        utilizacion_prom_servidor4 = server4.ts_acumulado / RELOJ
+        utilizacion_prom_servidor5 = server5.ts_acumulado / RELOJ
+        return utilizacion_prom_servidor1, utilizacion_prom_servidor2, utilizacion_prom_servidor3, utilizacion_prom_servidor4, utilizacion_prom_servidor5
     else:
         utilizacion_prom_servidor = 0  # no tiene sentido, ver
         return utilizacion_prom_servidor
@@ -312,9 +280,12 @@ def utilizacion_prom_servidor(server1, server2, server3, server4, server5):
 def demora_prom_cliente(server1, server2, server3, server4, server5):
     demora_prom_cliente1 = server1.demora_acumulada / server1.completaron_demora
     demora_prom_cliente2 = server2.demora_acumulada / server2.completaron_demora
-    return demora_prom_cliente1, demora_prom_cliente2
-"""
-"""
+    demora_prom_cliente3 = server3.demora_acumulada / server3.completaron_demora
+    demora_prom_cliente4 = server4.demora_acumulada / server4.completaron_demora
+    demora_prom_cliente5 = server5.demora_acumulada / server5.completaron_demora
+    return demora_prom_cliente1, demora_prom_cliente2, demora_prom_cliente3, demora_prom_cliente4, demora_prom_cliente5
+
+
 def reportes(server1, server2, server3, server4, server5):
     print(" Estadísticos ".center(101, '='), '\n')
     print(("Cantidad promedio de clientes en cola de los servers: " + str(
@@ -326,17 +297,17 @@ def reportes(server1, server2, server3, server4, server5):
     #graficas 
     #graficaPromCliEnCola()
     #graficaUtiServidor()
-"""
+
 
 if __name__ == '__main__':
-    server1 = Simulacion(servidor=1, tpoEntreArribos=10.0, tpoDeServicio=7.0)
-    server2 = Simulacion(servidor=2, tpoEntreArribos=10.0, tpoDeServicio=5.0)
+    server1 = Simulacion(servidor=1, tpoEntreArribos=10.0, tpoDeServicio=20.0)
+    server2 = Simulacion(servidor=2, tpoEntreArribos=10.0, tpoDeServicio=20.0)
     server3 = Simulacion(servidor=3, tpoEntreArribos=10.0, tpoDeServicio=6.0)
     server4 = Simulacion(servidor=4, tpoEntreArribos=10.0, tpoDeServicio=5.0)
     server5 = Simulacion(servidor=5, tpoEntreArribos=10.0, tpoDeServicio=5.0)
 
     run(server1, server2, server3, server4, server5)
-    #  reportes(server1, server2, server3, server4, server5)
+    reportes(server1, server2, server3, server4, server5)
 
 
 
