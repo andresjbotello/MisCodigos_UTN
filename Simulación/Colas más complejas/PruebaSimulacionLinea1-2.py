@@ -37,11 +37,11 @@ class Simulacion():
     def tiempos(self, evento, letra):
         global RELOJ
         if letra == 'A':
-            RELOJ = evento[0]
             self.tiempo_ultimo_evento = RELOJ
+            RELOJ = evento[0]
         else:
-            RELOJ = evento[0]
             self.tiempo_ultimo_evento = RELOJ
+            RELOJ = evento[0]
 
     def arribo(self, evento):
         global RELOJ
@@ -64,7 +64,7 @@ class Simulacion():
                 sim1.tsAcuEnT.append(sim1.ts_acumulado)
                 """
             else:
-                self.area_q_t += self.nro_clientes_cola * (RELOJ - self.cola[self.nro_clientes_cola])
+                self.area_q_t += self.nro_clientes_cola * (RELOJ - self.tiempo_ultimo_evento)
                 self.nro_clientes_cola += 1
                 self.cola.append(RELOJ)
                 # grafica
@@ -78,6 +78,7 @@ class Simulacion():
                 self.estado_servidor = "O"
                 if len(ColaUnica) > 0:
                     self.demora_acumulada += (RELOJ - ColaUnica[0])
+                    self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
                 ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
                 self.completaron_demora += 1
@@ -85,6 +86,7 @@ class Simulacion():
                 self.estado_servidor = "O"
                 if len(ColaUnica) > 0:
                     self.demora_acumulada += (RELOJ - ColaUnica[0])
+                    self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
                 ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
                 self.completaron_demora += 1
@@ -92,6 +94,7 @@ class Simulacion():
                 self.estado_servidor = "O"
                 if len(ColaUnica) > 0:
                     self.demora_acumulada += (RELOJ - ColaUnica[0])
+                    self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
                 ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
                 self.completaron_demora += 1
@@ -300,8 +303,8 @@ def reportes(server1, server2, server3, server4, server5):
 
 
 if __name__ == '__main__':
-    server1 = Simulacion(servidor=1, tpoEntreArribos=10.0, tpoDeServicio=20.0)
-    server2 = Simulacion(servidor=2, tpoEntreArribos=10.0, tpoDeServicio=20.0)
+    server1 = Simulacion(servidor=1, tpoEntreArribos=10.0, tpoDeServicio=7.0)
+    server2 = Simulacion(servidor=2, tpoEntreArribos=10.0, tpoDeServicio=5.0)
     server3 = Simulacion(servidor=3, tpoEntreArribos=10.0, tpoDeServicio=6.0)
     server4 = Simulacion(servidor=4, tpoEntreArribos=10.0, tpoDeServicio=5.0)
     server5 = Simulacion(servidor=5, tpoEntreArribos=10.0, tpoDeServicio=5.0)
