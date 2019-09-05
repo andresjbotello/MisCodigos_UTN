@@ -115,8 +115,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Simulación/Colas más complejas/PruebaSimulacionLinea1-2.py</url>
-          <line>322</line>
-          <option name="timeStamp" value="6" />
+          <line>311</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
