@@ -1,3 +1,7 @@
+import numpy as np
+
+RELOJ = 0.0
+ListaArribos = []
 ListaPartidas = []
 ColaUnica = []
 
@@ -18,7 +22,6 @@ class Simulacion():
         self.estado_servidor = ""  # D - disponible | O - ocupado
         self.proximo_evento = ""  # A - Arribo | P - partida
         self.cola = []
-        self.cola.append(0)
         # las listas siguientes se utilizan sólo con el fin de generar las gráficas
         self.cliColaEnT = []
         self.relojEnT = []
@@ -36,6 +39,7 @@ class Simulacion():
         else:
             self.tiempo_ultimo_evento = RELOJ
             RELOJ = evento[0]
+
 
     def arribo(self, evento):
         global RELOJ
