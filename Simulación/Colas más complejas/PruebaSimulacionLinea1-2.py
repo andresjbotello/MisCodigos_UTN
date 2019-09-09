@@ -19,7 +19,6 @@ class Simulacion():
         self.tiempo_ultimo_evento = 0.0
         self.nro_clientes_cola = 0
         self.completaron_demora = 0
-        self.paso = 0
         self.iniciado = False
         self.estado_servidor = ""  # D - disponible | O - ocupado
         self.proximo_evento = ""  # A - Arribo | P - partida
