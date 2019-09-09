@@ -19,7 +19,6 @@ class Simulacion():
         self.tiempo_ultimo_evento = 0.0
         self.nro_clientes_cola = 0
         self.completaron_demora = 0
-        self.paso = 0
         self.iniciado = False
         self.estado_servidor = ""  # D - disponible | O - ocupado
         self.proximo_evento = ""  # A - Arribo | P - partida
@@ -350,11 +349,11 @@ def reportes(server1, server2, server3, server4, server5):
 
 
 if __name__ == '__main__':
-    server1 = Simulacion(servidor=1, tpoEntreArribos=10.0, tpoDeServicio=7.0)
-    server2 = Simulacion(servidor=2, tpoEntreArribos=10.0, tpoDeServicio=5.0)
-    server3 = Simulacion(servidor=3, tpoEntreArribos=10.0, tpoDeServicio=6.0)
-    server4 = Simulacion(servidor=4, tpoEntreArribos=10.0, tpoDeServicio=5.0)
-    server5 = Simulacion(servidor=5, tpoEntreArribos=10.0, tpoDeServicio=5.0)
+    server1 = Simulacion(servidor=1, tpoEntreArribos=10.0, tpoDeServicio=3.0)
+    server2 = Simulacion(servidor=2, tpoEntreArribos=10.0, tpoDeServicio=2.0)
+    server3 = Simulacion(servidor=3, tpoEntreArribos=10.0, tpoDeServicio=10.0)
+    server4 = Simulacion(servidor=4, tpoEntreArribos=10.0, tpoDeServicio=10.0)
+    server5 = Simulacion(servidor=5, tpoEntreArribos=10.0, tpoDeServicio=10.0)
 
     run(server1, server2, server3, server4, server5)
     reportes(server1, server2, server3, server4, server5)
