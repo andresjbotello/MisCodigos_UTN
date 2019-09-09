@@ -23,7 +23,6 @@ class Simulacion():
         self.estado_servidor = ""  # D - disponible | O - ocupado
         self.proximo_evento = ""  # A - Arribo | P - partida
         self.cola = []
-        self.cola.append(0)
         # las listas siguientes se utilizan sólo con el fin de generar las gráficas
         self.cliColaEnT = []
         self.relojEnT = []
