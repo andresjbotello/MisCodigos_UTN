@@ -84,8 +84,6 @@ class Simulacion():
                     self.nro_clientes_cola += 1
                     self.cola.append(RELOJ)
 
-                
-                
             elif self.nroServidor == 4:
                 if self.estado_servidor == 'D':
                     self.estado_servidor = "O"
@@ -107,7 +105,6 @@ class Simulacion():
                     self.area_q_t += len(self.cola) * (RELOJ - self.tiempo_ultimo_evento)
                     self.nro_clientes_cola += 1
                     self.cola.append(RELOJ)
-                
 
     def partida(self, evento):
         global RELOJ
@@ -337,11 +334,11 @@ def reportes(server1, server2, server3, server4, server5):
 
     print("Utilización promedio de los servers: ", '\n')
     res = utilizacion_prom_servidor(server1, server2, server3, server4, server5)
-    print("Server 1: ", str(res[0]))
-    print("Server 2: ", str(res[1]))
-    print("Server 3: ", str(res[2]))
-    print("Server 4: ", str(res[3]))
-    print("Server 5: ", str(res[4]))
+    print("Server 1: ", str(round(res[0]*100, 2)), '%')
+    print("Server 2: ", str(round(res[1]*100, 2)), '%')
+    print("Server 3: ", str(round(res[2]*100, 2)), '%')
+    print("Server 4: ", str(round(res[3]*100, 2)), '%')
+    print("Server 5: ", str(round(res[4]*100, 2)), '%')
     print('\n')
 
     res = demora_prom_cliente(server1, server2, server3, server4, server5)
