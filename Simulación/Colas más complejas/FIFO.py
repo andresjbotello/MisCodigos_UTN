@@ -5,8 +5,6 @@ RELOJ = 0.0
 ListaArribos = []
 ListaPartidas = []
 ColaUnica = []
-Lifo = []
-Indi = 0
 
 
 class Simulacion():
@@ -36,17 +34,11 @@ class Simulacion():
 
     def tiempos(self, evento, letra):
         global RELOJ
-        global Lifo
         if letra == 'A':
             self.tiempo_ultimo_evento = RELOJ
             RELOJ = evento[0]
         else:
             RELOJ = evento[0]
-        #if (self.nroServidor == 3 or self.nroServidor == 4 or self.nroServidor == 5) and (letra == 'P') and \
-        #        (len(Lifo) > 0):
-        #    self.tiempo_ultimo_evento = max(Lifo)
-            
-
 
     def arribo(self, evento):
         global RELOJ
@@ -69,7 +61,7 @@ class Simulacion():
                 sim1.tsAcuEnT.append(sim1.ts_acumulado)
                 """
             else:
-                self.area_q_t += len(self.cola) * (RELOJ - self.tiempo_ultimo_evento)
+                self.area_q_t += self.nro_clientes_cola * (RELOJ - self.tiempo_ultimo_evento)
                 self.nro_clientes_cola += 1
                 self.cola.append(RELOJ)
                 # grafica
@@ -99,8 +91,6 @@ class Simulacion():
         global RELOJ
         global ListaPartidas
         global ColaUnica
-        global Lifo
-        global Indi
         indice = evento[1] - 1  # posicion en lista partida
 
         if self.nroServidor < 3:
@@ -109,7 +99,7 @@ class Simulacion():
                 self.demora_acumulada += RELOJ - self.cola[0]
                 self.completaron_demora += 1
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
-                self.area_q_t += len(self.cola) * (RELOJ - self.tiempo_ultimo_evento)
+                self.area_q_t += (len(self.cola) * (RELOJ - self.tiempo_ultimo_evento))
                 self.nro_clientes_cola -= 1
                 self.cola.pop(0)
                 # grafica
@@ -132,28 +122,19 @@ class Simulacion():
                 if len(ColaUnica) > 0:
                     ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                     self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
-                    Indi = ColaUnica.index(max(Lifo))
-                    self.demora_acumulada += RELOJ - ColaUnica[Indi]
+                    self.demora_acumulada += (RELOJ - ColaUnica[0])
                     self.completaron_demora += 1
-                    self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
-                    
-                    ColaUnica.remove(max(Lifo))
-                    Lifo.remove(max(Lifo))
+                    ColaUnica.pop(0)
                 else:
                     self.estado_servidor = 'D'
                     ListaPartidas[indice] = [999999, evento[1]]
-            
             elif self.nroServidor == 4:
                 if len(ColaUnica) > 0:
                     ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                     self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
-                    Indi = ColaUnica.index(max(Lifo))
-                    self.demora_acumulada += RELOJ - ColaUnica[Indi]
+                    self.demora_acumulada += (RELOJ - ColaUnica[0])
                     self.completaron_demora += 1
-                    self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
-                    self.nro_clientes_cola -= 1
-                    ColaUnica.remove(max(Lifo))
-                    Lifo.remove(max(Lifo))
+                    ColaUnica.pop(0)
                 else:
                     self.estado_servidor = 'D'
                     ListaPartidas[indice] = [999999, evento[1]]
@@ -161,14 +142,9 @@ class Simulacion():
                 if len(ColaUnica) > 0:
                     ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                     self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
-                    Indi = ColaUnica.index(max(Lifo))
-                    self.demora_acumulada += RELOJ - ColaUnica[Indi]
+                    self.demora_acumulada += (RELOJ - ColaUnica[0])
                     self.completaron_demora += 1
-                    self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
-                    self.nro_clientes_cola -= 1
-                    ColaUnica.remove(max(Lifo))
-                    Lifo.remove(max(Lifo))
-
+                    ColaUnica.pop(0)
                 else:
                     self.estado_servidor = 'D'
                     ListaPartidas[indice] = [999999, evento[1]]
@@ -179,7 +155,6 @@ def run(server1, server2, server3, server4, server5):
     global ListaPartidas
     global RELOJ
     global ColaUnica
-    global Lifo
     print("Inicializando simulacion")
 
     # Tiempo del primer arribo
@@ -218,7 +193,6 @@ def run(server1, server2, server3, server4, server5):
                 server1.partida(minPartida)
                 if server3.estado_servidor == 'O' and server4.estado_servidor == 'O' and server5.estado_servidor == 'O':
                     ColaUnica.append(minPartida[0])  # solo se agrega a la cola si los 3 servidores de segunda linea estan ocupados
-                    Lifo.append(minPartida[0])
                 elif server3.estado_servidor == 'D':
                     minPartida[1] = minPartida[1] + 2
                     server3.tiempos(minPartida, 'A')
@@ -239,7 +213,6 @@ def run(server1, server2, server3, server4, server5):
                 server2.partida(minPartida)
                 if server3.estado_servidor == 'O' and server4.estado_servidor == 'O' and server5.estado_servidor == 'O':
                     ColaUnica.append(minPartida[0])
-                    Lifo.append(minPartida[0])
                 elif server3.estado_servidor == 'D':
                     minPartida[1] = minPartida[1] + 1
                     server3.tiempos(minPartida, 'A')
