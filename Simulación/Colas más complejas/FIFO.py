@@ -1,11 +1,17 @@
 import numpy as np
+from openpyxl import Workbook
 from matplotlib import pyplot as plt
 
 RELOJ = 0.0
 ListaArribos = []
 ListaPartidas = []
 ColaUnica = []
-
+#gráficas
+RelojEnT = []
+TsAcumuladoEnT = []
+#Excel
+wb = Workbook()
+ws = wb.active
 
 class Simulacion():
 
@@ -34,6 +40,7 @@ class Simulacion():
 
     def tiempos(self, evento, letra):
         global RELOJ
+        global RelojEnT
         if letra == 'A':
             self.tiempo_ultimo_evento = RELOJ
             RELOJ = evento[0]
@@ -43,6 +50,7 @@ class Simulacion():
     def arribo(self, evento):
         global RELOJ
         global ListaArribos
+        global TsAcumuladoEnT
 
         indice = evento[1] - 1  # posicion en lista arribos
 
@@ -53,28 +61,20 @@ class Simulacion():
                 self.estado_servidor = "O"
                 ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
+
                 self.completaron_demora += 1
-                # grafica
-                """
-                sim1.relojEnT.append(RELOJ)  
-                sim1.cliColaEnT.append(sim1.nro_clientes_cola)
-                sim1.tsAcuEnT.append(sim1.ts_acumulado)
-                """
+
             else:
                 self.area_q_t += self.nro_clientes_cola * (RELOJ - self.tiempo_ultimo_evento)
                 self.nro_clientes_cola += 1
                 self.cola.append(RELOJ)
-                # grafica
-                """
-                sim1.cliColaEnT.append(sim1.nro_clientes_cola)
-                sim1.relojEnT.append(RELOJ)
-                sim1.tsAcuEnT.append(sim1.ts_acumulado)
-                """
+
         else:
             if self.nroServidor == 3:
                 self.estado_servidor = "O"
                 ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
+                TsAcumuladoEnT.append(self.ts_acumulado)
                 self.completaron_demora += 1
             elif self.nroServidor == 4:
                 self.estado_servidor = "O"
@@ -102,21 +102,11 @@ class Simulacion():
                 self.area_q_t += (len(self.cola) * (RELOJ - self.tiempo_ultimo_evento))
                 self.nro_clientes_cola -= 1
                 self.cola.pop(0)
-                # grafica
-                """
-                sim1.cliColaEnT.append(sim1.nro_clientes_cola)
-                sim1.relojEnT.append(RELOJ)
-                sim1.tsAcuEnT.append(sim1.ts_acumulado)
-                """
+
             else:
                 self.estado_servidor = "D"
                 ListaPartidas[indice] = [999999, evento[1]]
-                # grafica
-                """
-                sim1.relojEnT.append(RELOJ)
-                sim1.cliColaEnT.append(sim1.nro_clientes_cola)
-                sim1.tsAcuEnT.append(sim1.ts_acumulado)
-                """
+
         else:
             if self.nroServidor == 3:
                 if len(ColaUnica) > 0:
@@ -177,6 +167,7 @@ def run(server1, server2, server3, server4, server5):
 
         if minArribo < minPartida:
             print("reloj: " + str(RELOJ))
+            RelojEnT.append(RELOJ)
             nroServer = minArribo[1]
             if nroServer == 1:
                 server1.tiempos(minArribo, 'A')
@@ -187,6 +178,7 @@ def run(server1, server2, server3, server4, server5):
 
         else:
             print("reloj: " + str(RELOJ))
+            RelojEnT.append(RELOJ)
             nroServer = minPartida[1]
             if nroServer == 1:
                 server1.tiempos(minPartida, 'P')
@@ -297,9 +289,6 @@ def reportes(server1, server2, server3, server4, server5):
     print("Promedio del total de demora en los servidores: ", str(res))
 
     print(" \/\/\/\/\/ ".center(101, '='))
-    #graficas 
-    #graficaPromCliEnCola()
-    #graficaUtiServidor()
 
 
 if __name__ == '__main__':
@@ -313,5 +302,6 @@ if __name__ == '__main__':
     reportes(server1, server2, server3, server4, server5)
 
 
-
-    # Los servers 3,4 y 5 no tienen que generar arribos, son los clientes que salen de 1 y 2.
+    for i in range(len(RelojEnT)):
+        ws.cell(column=1, row=i+1).value = RelojEnT[i]
+    wb.save("resultados.xlsx")
