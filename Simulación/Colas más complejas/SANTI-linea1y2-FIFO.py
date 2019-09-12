@@ -5,8 +5,8 @@ RELOJ = 0.0
 ListaArribos = []
 ListaPartidas = []
 ColaUnica = []
-Fifo=[]
-Indi=0
+Fifo = []
+Indi = 0
 
 
 class Simulacion():
@@ -42,7 +42,8 @@ class Simulacion():
             RELOJ = evento[0]
         else:
             RELOJ = evento[0]
-        if (self.nroServidor == 3 or self.nroServidor == 4 or self.nroServidor == 5) and (letra=='P') and (len(Fifo)>0):
+        if (self.nroServidor == 3 or self.nroServidor == 4 or self.nroServidor == 5) and (letra == 'P') and \
+                (len(Fifo) > 0):
             self.tiempo_ultimo_evento = max(Fifo)
             
 
@@ -131,7 +132,7 @@ class Simulacion():
                 if len(ColaUnica) > 0:
                     ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                     self.area_q_t += (len(ColaUnica) * (RELOJ - self.tiempo_ultimo_evento))
-                    Indi=ColaUnica.index(max(Fifo))
+                    Indi = ColaUnica.index(max(Fifo))
                     self.demora_acumulada += RELOJ - ColaUnica[Indi]
                     self.completaron_demora += 1
                     self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
@@ -201,7 +202,7 @@ def run(server1, server2, server3, server4, server5):
     ListaPartidas.append([999999, 4])
     ListaPartidas.append([999999, 5])
 
-    while RELOJ < 2000:
+    while RELOJ < 3000:
         minArribo = min(ListaArribos)
         minPartida = min(ListaPartidas)
 
@@ -303,18 +304,32 @@ def demora_prom_cliente(server1, server2, server3, server4, server5):
     demora_prom_cliente3 = server3.demora_acumulada / server3.completaron_demora
     demora_prom_cliente4 = server4.demora_acumulada / server4.completaron_demora
     demora_prom_cliente5 = server5.demora_acumulada / server5.completaron_demora
-    demoratotal=(demora_prom_cliente1+demora_prom_cliente2+demora_prom_cliente3+demora_prom_cliente4+demora_prom_cliente5)/5
+    demoratotal = (demora_prom_cliente1+demora_prom_cliente2+demora_prom_cliente3+demora_prom_cliente4+demora_prom_cliente5)/5
     return demoratotal
 
 
 def reportes(server1, server2, server3, server4, server5):
     print(" Estadísticos ".center(101, '='), '\n')
-    print(("Cantidad promedio de clientes en cola de los servers: " + str(
-        nro_prom_clientes_cola(server1, server2, server3, server4, server5))).center(100, ' '))
-    print(("Utilizacion promedio de los servers: " + str(
-        utilizacion_prom_servidor(server1, server2, server3, server4, server5))).center(100, ' '))
-    print(("Demora promedio de cliente en los servidores: " + str(
-        demora_prom_cliente(server1, server2, server3, server4, server5))))
+    print("Cantidad promedio de clientes en cola: ", '\n')
+    res = nro_prom_clientes_cola(server1, server2, server3, server4, server5)
+    print("Cola server 1: ", str(res[0]))
+    print("Cola server 2: ", str(res[1]))
+    print("Cola única:    ", str(res[2]))
+    print('\n')
+
+    print("Utilización promedio de los servers: ", '\n')
+    res = utilizacion_prom_servidor(server1, server2, server3, server4, server5)
+    print("Server 1: ", str(res[0]))
+    print("Server 2: ", str(res[1]))
+    print("Server 3: ", str(res[2]))
+    print("Server 4: ", str(res[3]))
+    print("Server 5: ", str(res[4]))
+    print('\n')
+
+    res = demora_prom_cliente(server1, server2, server3, server4, server5)
+    print("Promedio del total de demora en los servidores: ", str(res))
+
+    print(" \/\/\/\/\/ ".center(101, '='))
     #graficas 
     #graficaPromCliEnCola()
     #graficaUtiServidor()
