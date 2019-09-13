@@ -1,6 +1,6 @@
 import numpy as np
 from openpyxl import Workbook
-from matplotlib import pyplot as plt
+
 
 RELOJ = 0.0
 ListaArribos = []
@@ -8,7 +8,9 @@ ListaPartidas = []
 ColaUnica = []
 #gráficas
 RelojEnT = []
-TsAcumuladoEnT = []
+NroClientesCola = []
+UtiServ = []
+DemoraProm = []
 #Excel
 wb = Workbook()
 ws = wb.active
@@ -74,7 +76,6 @@ class Simulacion():
                 self.estado_servidor = "O"
                 ListaPartidas[indice] = [RELOJ + np.random.exponential(self.tm_servicio), evento[1]]
                 self.ts_acumulado += (ListaPartidas[indice][0] - RELOJ)
-                TsAcumuladoEnT.append(self.ts_acumulado)
                 self.completaron_demora += 1
             elif self.nroServidor == 4:
                 self.estado_servidor = "O"
@@ -145,6 +146,7 @@ def run(server1, server2, server3, server4, server5):
     global ListaPartidas
     global RELOJ
     global ColaUnica
+
     print("Inicializando simulacion")
 
     # Tiempo del primer arribo
@@ -229,6 +231,9 @@ def run(server1, server2, server3, server4, server5):
             elif nroServer == 5:
                 server5.tiempos(minPartida, 'P')
                 server5.partida(minPartida)
+        NroClientesCola.append(nro_prom_clientes_cola(server1, server2, server3, server4, server5))
+        UtiServ.append(utilizacion_prom_servidor(server1, server2, server3, server4, server5))
+        DemoraProm.append(demora_prom_cliente(server1, server2, server3, server4, server5))
     return server1, server2, server3, server4, server5
 
 
@@ -240,7 +245,7 @@ def nro_prom_clientes_cola(server1, server2, server3, server4, server5):
         nro_clientes_fila_unica = (server3.area_q_t / RELOJ) + (server4.area_q_t / RELOJ) + (server5.area_q_t / RELOJ)
         return nro_clientes_prom_cola1, nro_clientes_prom_cola2, nro_clientes_fila_unica
     else:
-        nro_clientes_prom_cola = 0  # no tiene sentido, ver
+        nro_clientes_prom_cola = 0
         return nro_clientes_prom_cola
 
 
@@ -251,18 +256,36 @@ def utilizacion_prom_servidor(server1, server2, server3, server4, server5):
         utilizacion_prom_servidor3 = server3.ts_acumulado / RELOJ
         utilizacion_prom_servidor4 = server4.ts_acumulado / RELOJ
         utilizacion_prom_servidor5 = server5.ts_acumulado / RELOJ
-        return utilizacion_prom_servidor1, utilizacion_prom_servidor2, utilizacion_prom_servidor3, utilizacion_prom_servidor4, utilizacion_prom_servidor5
+        return (utilizacion_prom_servidor1 * 100), (utilizacion_prom_servidor2 * 100), (
+                    utilizacion_prom_servidor3 * 100), (utilizacion_prom_servidor4 * 100), (
+                           utilizacion_prom_servidor5 * 100)
     else:
-        utilizacion_prom_servidor = 0  # no tiene sentido, ver
+        utilizacion_prom_servidor = 0
         return utilizacion_prom_servidor
 
 
 def demora_prom_cliente(server1, server2, server3, server4, server5):
-    demora_prom_cliente1 = server1.demora_acumulada / server1.completaron_demora
-    demora_prom_cliente2 = server2.demora_acumulada / server2.completaron_demora
-    demora_prom_cliente3 = server3.demora_acumulada / server3.completaron_demora
-    demora_prom_cliente4 = server4.demora_acumulada / server4.completaron_demora
-    demora_prom_cliente5 = server5.demora_acumulada / server5.completaron_demora
+    if server1.completaron_demora > 0:
+        demora_prom_cliente1 = server1.demora_acumulada / server1.completaron_demora
+    else:
+        demora_prom_cliente1 = 0
+    if server2.completaron_demora > 0:
+        demora_prom_cliente2 = server2.demora_acumulada / server2.completaron_demora
+    else:
+        demora_prom_cliente2 = 0
+    if server3.completaron_demora > 0:
+        demora_prom_cliente3 = server3.demora_acumulada / server3.completaron_demora
+    else:
+        demora_prom_cliente3 = 0
+    if server4.completaron_demora > 0:
+        demora_prom_cliente4 = server4.demora_acumulada / server4.completaron_demora
+    else:
+        demora_prom_cliente4 = 0
+    if server5.completaron_demora > 0:
+        demora_prom_cliente5 = server5.demora_acumulada / server5.completaron_demora
+    else:
+        demora_prom_cliente5 = 0
+
     demoratotal = (demora_prom_cliente1+demora_prom_cliente2+demora_prom_cliente3+demora_prom_cliente4+demora_prom_cliente5)/5
     return demoratotal
 
@@ -278,11 +301,11 @@ def reportes(server1, server2, server3, server4, server5):
 
     print("Utilización promedio de los servers: ", '\n')
     res = utilizacion_prom_servidor(server1, server2, server3, server4, server5)
-    print("Server 1: ", str(round(res[0] * 100, 2)), '%')
-    print("Server 2: ", str(round(res[1] * 100, 2)), '%')
-    print("Server 3: ", str(round(res[2] * 100, 2)), '%')
-    print("Server 4: ", str(round(res[3] * 100, 2)), '%')
-    print("Server 5: ", str(round(res[4] * 100, 2)), '%')
+    print("Server 1: ", str(round(res[0], 2)), '%')
+    print("Server 2: ", str(round(res[1], 2)), '%')
+    print("Server 3: ", str(round(res[2], 2)), '%')
+    print("Server 4: ", str(round(res[3], 2)), '%')
+    print("Server 5: ", str(round(res[4], 2)), '%')
     print('\n')
 
     res = demora_prom_cliente(server1, server2, server3, server4, server5)
@@ -301,7 +324,21 @@ if __name__ == '__main__':
     run(server1, server2, server3, server4, server5)
     reportes(server1, server2, server3, server4, server5)
 
-
+    #Excel
     for i in range(len(RelojEnT)):
         ws.cell(column=1, row=i+1).value = RelojEnT[i]
-    wb.save("resultados.xlsx")
+    for i in range(len(DemoraProm)):
+        ws.cell(column=2, row=i+1).value = DemoraProm[i]
+    for i in range(len(NroClientesCola)):
+        ws.cell(column=3, row=i+1).value = NroClientesCola[i][0]
+        ws.cell(column=4, row=i+1).value = NroClientesCola[i][1]
+        ws.cell(column=5, row=i+1).value = NroClientesCola[i][2]
+    for i in range(len(UtiServ)):
+        ws.cell(column=6, row=i + 1).value = (UtiServ[i][0])
+        ws.cell(column=7, row=i + 1).value = (UtiServ[i][1])
+        ws.cell(column=8, row=i + 1).value = (UtiServ[i][2])
+        ws.cell(column=9, row=i + 1).value = (UtiServ[i][3])
+        ws.cell(column=10, row=i + 1).value = (UtiServ[i][4])
+
+
+    wb.save("resultadosFIFO.xlsx")
