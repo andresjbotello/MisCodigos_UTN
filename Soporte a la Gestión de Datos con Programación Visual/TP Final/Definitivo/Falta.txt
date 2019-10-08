@@ -1,0 +1,3 @@
+-Capa de Datos: Todo
+-Capa de Negocio: Vincular a datos y agregar modificaciones y eliminar
+-Capa de Vista: Vincular, Manejo de Botones, Crear interfaz Eliminar/Modificar, Ver como hacer la Pausa de Reproductor
