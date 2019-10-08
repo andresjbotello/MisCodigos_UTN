@@ -2,6 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="48dd86ca-eff8-40ca-9f6c-6ea8ff28aaa0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/GUI/Abrir.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/GUI/Analisis.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/GUI/Grabacion.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/GUI/Menu.ui" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/GUI/abrir.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/GUI/analisis.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/GUI/grabacion.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/GUI/menu.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/Ejemplo_Melodia.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/Escala_Melodica_Sostenidos.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/aksdaschroma.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/chroma.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/jaja.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/jaja_melosynth.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/melosynth-master.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/melosynth-master/LICENSE.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/melosynth-master/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/melosynth-master/melosynth.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/melosynth.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Soporte a la Gestión de Datos con Programación Visual/TP Final/Melodia/vocal_jazz_-_original.mp3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MisCodigos_UTN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MisCodigos_UTN.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,11 +44,15 @@
     <option name="ROOT_SYNC" value="DONT_SYNC" />
   </component>
   <component name="ProjectId" id="1Q9uxmYenJBpFYLBbarcKtSQUsX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="C:/Program Files/Git/bin/git.exe" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -182,6 +208,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
